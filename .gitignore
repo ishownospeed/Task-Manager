@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# Exception files
+*.iml
+
 # Log file
 *.log
 

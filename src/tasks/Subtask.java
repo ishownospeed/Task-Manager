@@ -15,7 +15,8 @@ public class Subtask extends Task {
         return status;
     }
 
-    public void setStatus(TaskStatus status) {
+   public void setStatus(TaskStatus status) {
         this.status = status;
     }
+
 }

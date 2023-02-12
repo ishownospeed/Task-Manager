@@ -4,33 +4,37 @@ import java.util.ArrayList;
 
 public class Epic extends Task {
     private TaskStatus status;
-    private ArrayList<Subtask> subtaskIds;
+    private ArrayList<Subtask> subtasks;
 
     public Epic(String title, String description, int id) {
         super(title, description, id);
-        this.subtaskIds = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
     }
 
     @Override
     public TaskStatus getStatus() {
-        if (TaskStatus.NEW.equals(status) || subtaskIds.isEmpty()) {
-            return TaskStatus.NEW;
-        } else if (TaskStatus.DONE.equals(status)) {
-            return TaskStatus.DONE;
-        } else {
-            return TaskStatus.IN_PROGRESS;
+        for (Subtask task : subtasks) {
+            if (TaskStatus.NEW.equals(task.getStatus()) || subtasks.isEmpty()) {
+                if (TaskStatus.DONE.equals(status) || TaskStatus.IN_PROGRESS.equals(status)) {
+                    status = TaskStatus.IN_PROGRESS;
+                } else {
+                    status = TaskStatus.NEW;
+                }
+            } else if (TaskStatus.DONE.equals(task.getStatus())) {
+                if (TaskStatus.NEW.equals(status) || TaskStatus.IN_PROGRESS.equals(status)) {
+                    status = TaskStatus.IN_PROGRESS;
+                } else {
+                    status = TaskStatus.DONE;
+                }
+            } else {
+                status = TaskStatus.IN_PROGRESS;
+            }
         }
+        return status;
     }
 
-    public void setStatus(TaskStatus status) {
-        this.status = status;
+    public ArrayList<Subtask> getSubtasks() {
+        return subtasks;
     }
 
-    public ArrayList<Subtask> getSubtaskIds() {
-        return subtaskIds;
-    }
-
-    public void setSubtaskIds(ArrayList<Subtask> subtaskIds) {
-        this.subtaskIds = subtaskIds;
-    }
 }
