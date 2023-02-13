@@ -67,6 +67,7 @@ public class TaskManager {
     }
 
     public void deleteAllEpicTasks() {
+        subtasksById.clear();
         epicsById.clear();
     }
 
@@ -77,6 +78,9 @@ public class TaskManager {
     public void createEpic(Epic epic) {
         epic.setId(nextId++);
         epicsById.put(epic.getId(), epic);
+    }
+
+    public void getStatus(Epic epic) {
         epic.getStatus();
     }
 
@@ -84,14 +88,19 @@ public class TaskManager {
         epicsById.put(epic.getId(), epic);
     }
 
-    public Epic deleteEpicById(int id) {
-        deleteSubtaskById(id);
+    public Epic deleteEpicById(Epic epic, int id) {
+        epic.getSubtasks().clear();
+        subtasksById.clear();
         return epicsById.remove(id);
     }
 
-    public void deleteAllSubtask(Epic epic) {
-        epic.getSubtasks().clear();
-        subtasksById.clear();
+    public void deleteAllSubtask(Epic epic, int id) {
+        if (epicsById.containsKey(id)) {
+            for (int i = epic.getSubtasks().size(); i > 0; i--) {
+                epic.getSubtasks().remove(i-1);
+                subtasksById.remove(i+1);
+            }
+        }
     }
 
     public Subtask getSubtaskById(int id) {
@@ -99,17 +108,17 @@ public class TaskManager {
     }
 
     public void createSubtask(Epic epic, Subtask subtask) {
+        subtask.setId(nextId++);
         epic.getSubtasks().add(subtask);
-        epic.setId(nextId++);
-        subtasksById.put(epic.getId(),subtask);
-        subtask.setStatus(subtask.getStatus());
+        subtasksById.put(subtask.getId(),subtask);
     }
 
     public void updateSubtask(Subtask subtask) {
         subtasksById.put(subtask.getId(), subtask);
     }
 
-    public Subtask deleteSubtaskById(int id) {
+    public Subtask deleteSubtaskById(Epic epic, int id) {
+        epic.getSubtasks().remove(id);
         return subtasksById.remove(id);
     }
 

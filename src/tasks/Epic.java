@@ -14,7 +14,7 @@ public class Epic extends Task {
     @Override
     public TaskStatus getStatus() {
         for (Subtask task : subtasks) {
-            if (TaskStatus.NEW.equals(task.getStatus()) || subtasks.isEmpty()) {
+            if (TaskStatus.NEW.equals(task.getStatus())) {
                 if (TaskStatus.DONE.equals(status) || TaskStatus.IN_PROGRESS.equals(status)) {
                     status = TaskStatus.IN_PROGRESS;
                 } else {
@@ -37,4 +37,7 @@ public class Epic extends Task {
         return subtasks;
     }
 
+    public void setSubtasks(ArrayList<Subtask> subtasks) {
+        this.subtasks = subtasks;
+    }
 }
