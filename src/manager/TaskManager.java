@@ -1,7 +1,6 @@
 package manager;
 
 import tasks.*;
-
 import java.util.HashMap;
 
 public class TaskManager {
@@ -53,9 +52,9 @@ public class TaskManager {
     }
 
     public void createTask(SingleTask singleTask) {
-        singleTask.setId(nextId++);
         tasksById.put(singleTask.getId(), singleTask);
         singleTask.setStatus(TaskStatus.NEW);
+        singleTask.setId(nextId++);
     }
 
     public void updateTask(SingleTask singleTask) {
@@ -76,8 +75,8 @@ public class TaskManager {
     }
 
     public void createEpic(Epic epic) {
-        epic.setId(nextId++);
         epicsById.put(epic.getId(), epic);
+        epic.setId(nextId++);
     }
 
     public void getStatus(Epic epic) {
@@ -88,19 +87,25 @@ public class TaskManager {
         epicsById.put(epic.getId(), epic);
     }
 
-    public Epic deleteEpicById(Epic epic, int id) {
-        epic.getSubtasks().clear();
-        subtasksById.clear();
+    public Epic deleteEpicById(int id) {
+        for (int task : epicsById.keySet()) {
+            epicsById.get(id).getSubtasks().remove(task);
+            subtasksById.remove(epicsById.get(id).getId());
+        }
+
+        /*for (Subtask task : subtasksById.values()) {
+            epicsById.get(id).getSubtasks().remove(task);
+        }*/
+        // задачи сабтасков из списка эпика, я удалил, а вот из коллекции сабтасков я не понимаю как (((
+        // если в цикле удалять, цикл с ошибкой выходит
         return epicsById.remove(id);
     }
 
-    public void deleteAllSubtask(Epic epic, int id) {
-        if (epicsById.containsKey(id)) {
-            for (int i = epic.getSubtasks().size(); i > 0; i--) {
-                epic.getSubtasks().remove(i-1);
-                subtasksById.remove(i+1);
-            }
+    public void deleteAllSubtask(Epic epic) {
+        for (Subtask task : subtasksById.values()) {
+            epic.getSubtasks().remove(task);
         }
+        subtasksById.clear();
     }
 
     public Subtask getSubtaskById(int id) {
@@ -108,17 +113,19 @@ public class TaskManager {
     }
 
     public void createSubtask(Epic epic, Subtask subtask) {
-        subtask.setId(nextId++);
         epic.getSubtasks().add(subtask);
         subtasksById.put(subtask.getId(),subtask);
+        subtask.setId(nextId++);
     }
 
     public void updateSubtask(Subtask subtask) {
         subtasksById.put(subtask.getId(), subtask);
     }
 
-    public Subtask deleteSubtaskById(Epic epic, int id) {
-        epic.getSubtasks().remove(id);
+    public Subtask deleteSubtaskById(int id) {
+        for (Subtask task : subtasksById.values()) {
+            subtasksById.get(id).getEpic().getSubtasks().remove(task);
+        }
         return subtasksById.remove(id);
     }
 

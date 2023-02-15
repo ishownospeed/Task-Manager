@@ -1,7 +1,6 @@
 package tasks;
 
 public class Subtask extends Task {
-    private TaskStatus status;
     private Epic epic;
 
     public Subtask(String title, String description, int id, Epic epic, TaskStatus status) {
@@ -19,4 +18,7 @@ public class Subtask extends Task {
         this.status = status;
     }
 
+    public Epic getEpic() {
+        return epic;
+    }
 }

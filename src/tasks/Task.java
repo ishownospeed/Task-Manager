@@ -4,6 +4,7 @@ public abstract class Task {
     private String title;
     private String description;
     private int id;
+    protected TaskStatus status;
 
     public Task(String title, String description, int id) {
         this.title = title;
