@@ -1,12 +1,16 @@
 package manager;
 
+import com.sun.jdi.Value;
 import tasks.*;
+
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TaskManager {
     private HashMap<Integer, SingleTask> tasksById = new HashMap<>();
     private HashMap<Integer, Epic> epicsById = new HashMap<>();
-    private HashMap<Integer, Subtask> subtasksById = new HashMap<>();
+    private ConcurrentHashMap<Integer, Subtask> subtasksById = new ConcurrentHashMap<>();
 
     private Integer nextId = 0;
 
@@ -88,24 +92,40 @@ public class TaskManager {
     }
 
     public Epic deleteEpicById(int id) {
-        for (int task : epicsById.keySet()) {
-            epicsById.get(id).getSubtasks().remove(task);
-            subtasksById.remove(epicsById.get(id).getId());
+        /* Прочитал я тут документацию по хэшмапам, а именно про удаление и вот что нашел)))
+         * про параллельные хэшмапы, с помощью их результат как и задумывался
+         * можно мне объяснить как можно по другому сделать, я правда не понимаю как можно сделать иначе?
+         *
+         * */
+        for (Map.Entry<Integer, Subtask> task : subtasksById.entrySet()) {
+            if (task.getKey() != null && task.getValue() == task.getValue()) {
+                    subtasksById.remove(task.getKey());
+            }
+            for (int epic : epicsById.keySet()) {
+                if (epicsById.values().equals(epicsById.get(id))) {
+                    epicsById.get(id).getSubtasks().remove(epic);
+                }
+            }
         }
 
-        /*for (Subtask task : subtasksById.values()) {
-            epicsById.get(id).getSubtasks().remove(task);
-        }*/
-        // задачи сабтасков из списка эпика, я удалил, а вот из коллекции сабтасков я не понимаю как (((
-        // если в цикле удалять, цикл с ошибкой выходит
         return epicsById.remove(id);
     }
 
     public void deleteAllSubtask(Epic epic) {
-        for (Subtask task : subtasksById.values()) {
-            epic.getSubtasks().remove(task);
+        // это метод я понял так. У конкретного эпика удаляем все его задачи, но сам эпик оставляем.
+        // а вот метод выше на 93 строке deleteEpicById(int id), мы удаляем и эпик и все его задачи
+        // если в этом методе вызвать просто "subtasksById.clear();" получается все его задачи останутся в эпиках
+        // в коллекции ArrayList<Subtask> subtasks; они же оттуда удалиться не могут? или могут)))?
+
+        for (Map.Entry<Integer, Subtask> task : subtasksById.entrySet()) {
+            if (task.getKey() != null && task.getValue() == task.getValue()) {
+                subtasksById.remove(task.getKey());
+            }
+            for (Subtask subtask : subtasksById.values()) {
+                epic.getSubtasks().remove(subtask);
+
+            }
         }
-        subtasksById.clear();
     }
 
     public Subtask getSubtaskById(int id) {
@@ -114,7 +134,7 @@ public class TaskManager {
 
     public void createSubtask(Epic epic, Subtask subtask) {
         epic.getSubtasks().add(subtask);
-        subtasksById.put(subtask.getId(),subtask);
+        subtasksById.put(subtask.getId(), subtask);
         subtask.setId(nextId++);
     }
 
@@ -124,7 +144,9 @@ public class TaskManager {
 
     public Subtask deleteSubtaskById(int id) {
         for (Subtask task : subtasksById.values()) {
-            subtasksById.get(id).getEpic().getSubtasks().remove(task);
+            if (subtasksById.get(id).equals(task)) {
+                subtasksById.get(id).getEpic().getSubtasks().remove(task);
+            }
         }
         return subtasksById.remove(id);
     }

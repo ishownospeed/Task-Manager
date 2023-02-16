@@ -17,12 +17,13 @@ public class Main {
         Subtask s1 = new Subtask("Пройти 5 км ","лучше взять беговые кроссовки ",76, e,TaskStatus.NEW);
         Subtask s3 = new Subtask("Взять деньги "," у жены ",9, e,TaskStatus.DONE);
         Subtask s5 = new Subtask("Переехать в другой город ","купить билеты ",34, e,TaskStatus.IN_PROGRESS);
+        //Subtask s6 = new Subtask("город "," билеты ",65, e,TaskStatus.IN_PROGRESS);
 
         taskManager.createSubtask(e, s1);
         taskManager.createSubtask(e, s3);
         taskManager.createSubtask(e, s5);
 
-        //taskManager.createSubtask(e1, s5);
+        //taskManager.createSubtask(e1, s6);
 
         taskManager.createEpic(e);
         //taskManager.createEpic(e1);
