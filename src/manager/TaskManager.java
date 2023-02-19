@@ -1,46 +1,36 @@
 package manager;
 
-import com.sun.jdi.Value;
 import tasks.*;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class TaskManager {
     private HashMap<Integer, SingleTask> tasksById = new HashMap<>();
     private HashMap<Integer, Epic> epicsById = new HashMap<>();
-    private ConcurrentHashMap<Integer, Subtask> subtasksById = new ConcurrentHashMap<>();
+    private HashMap<Integer, Subtask> subtasksById = new HashMap<>();
 
-    private Integer nextId = 0;
-
+    private int nextId = 0;
     public void printAllTask() {
         if (!tasksById.isEmpty()) {
             System.out.println("Список задач: ");
-            for (SingleTask tasks : tasksById.values()) {
-                System.out.print("Задача: " + tasks.getTitle());
-                System.out.print("Описание: " + tasks.getDescription());
-                System.out.println("Статус: " + tasks.getStatus());
+            for (SingleTask task : tasksById.values()) {
+                System.out.println(task.toString());
             }
         } else {
             System.out.println("Список задач пуст");
         }
         if (!epicsById.isEmpty()) {
             System.out.println("Список главных задач: ");
-            for (Epic tasks : epicsById.values()) {
-                System.out.print("Задача: " + tasks.getTitle());
-                System.out.print("Описание: " + tasks.getDescription());
-                System.out.println("Статус: " + tasks.getStatus());
+            for (Epic task : epicsById.values()) {
+                System.out.println(task.toString());
             }
         } else {
             System.out.println("Список главных задач пуст");
         }
         if (!subtasksById.isEmpty()) {
             System.out.println("Список подзадач: ");
-            for (Subtask tasks : subtasksById.values()) {
-                System.out.print("Задача: " + tasks.getTitle());
-                System.out.print("Описание: " + tasks.getDescription());
-                System.out.println("Статус: " + tasks.getStatus());
+            for (Subtask task : subtasksById.values()) {
+                System.out.println(task.toString());
             }
         } else {
             System.out.println("Список подзадач пуст");
@@ -56,9 +46,8 @@ public class TaskManager {
     }
 
     public void createTask(SingleTask singleTask) {
-        tasksById.put(singleTask.getId(), singleTask);
-        singleTask.setStatus(TaskStatus.NEW);
         singleTask.setId(nextId++);
+        tasksById.put(singleTask.getId(), singleTask);
     }
 
     public void updateTask(SingleTask singleTask) {
@@ -79,8 +68,8 @@ public class TaskManager {
     }
 
     public void createEpic(Epic epic) {
-        epicsById.put(epic.getId(), epic);
         epic.setId(nextId++);
+        epicsById.put(epic.getId(), epic);
     }
 
     public void getStatus(Epic epic) {
@@ -92,40 +81,19 @@ public class TaskManager {
     }
 
     public Epic deleteEpicById(int id) {
-        /* Прочитал я тут документацию по хэшмапам, а именно про удаление и вот что нашел)))
-         * про параллельные хэшмапы, с помощью их результат как и задумывался
-         * можно мне объяснить как можно по другому сделать, я правда не понимаю как можно сделать иначе?
-         *
-         * */
-        for (Map.Entry<Integer, Subtask> task : subtasksById.entrySet()) {
-            if (task.getKey() != null && task.getValue() == task.getValue()) {
-                    subtasksById.remove(task.getKey());
-            }
-            for (int epic : epicsById.keySet()) {
-                if (epicsById.values().equals(epicsById.get(id))) {
-                    epicsById.get(id).getSubtasks().remove(epic);
-                }
-            }
+        Epic epic = epicsById.get(id);
+        for (Subtask subtask : epic.getSubtasks()) {
+            subtasksById.remove(subtask.getId());
         }
-
         return epicsById.remove(id);
     }
 
-    public void deleteAllSubtask(Epic epic) {
-        // это метод я понял так. У конкретного эпика удаляем все его задачи, но сам эпик оставляем.
-        // а вот метод выше на 93 строке deleteEpicById(int id), мы удаляем и эпик и все его задачи
-        // если в этом методе вызвать просто "subtasksById.clear();" получается все его задачи останутся в эпиках
-        // в коллекции ArrayList<Subtask> subtasks; они же оттуда удалиться не могут? или могут)))?
-
-        for (Map.Entry<Integer, Subtask> task : subtasksById.entrySet()) {
-            if (task.getKey() != null && task.getValue() == task.getValue()) {
-                subtasksById.remove(task.getKey());
-            }
-            for (Subtask subtask : subtasksById.values()) {
-                epic.getSubtasks().remove(subtask);
-
-            }
+    public void deleteAllSubtask() {
+        for (int task : subtasksById.keySet()) {
+            subtasksById.get(task).getEpic().getSubtasks().remove(subtasksById.get(task));
+            // можно ли выше строчку, как-нибудь сократить?
         }
+        subtasksById.clear();
     }
 
     public Subtask getSubtaskById(int id) {
@@ -133,9 +101,9 @@ public class TaskManager {
     }
 
     public void createSubtask(Epic epic, Subtask subtask) {
+        subtask.setId(nextId++);
         epic.getSubtasks().add(subtask);
         subtasksById.put(subtask.getId(), subtask);
-        subtask.setId(nextId++);
     }
 
     public void updateSubtask(Subtask subtask) {
@@ -143,11 +111,7 @@ public class TaskManager {
     }
 
     public Subtask deleteSubtaskById(int id) {
-        for (Subtask task : subtasksById.values()) {
-            if (subtasksById.get(id).equals(task)) {
-                subtasksById.get(id).getEpic().getSubtasks().remove(task);
-            }
-        }
+        subtasksById.get(id).getEpic().getSubtasks().remove(subtasksById.get(id));
         return subtasksById.remove(id);
     }
 

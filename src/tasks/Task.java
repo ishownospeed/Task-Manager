@@ -6,13 +6,15 @@ public abstract class Task {
     private int id;
     protected TaskStatus status;
 
-    public Task(String title, String description, int id) {
+    public Task(String title, String description) {
         this.title = title;
         this.description = description;
-        this.id = id;
     }
 
     public abstract TaskStatus getStatus();
+
+    @Override
+    public abstract String toString();
 
     public String getTitle() {
         return title;
@@ -29,4 +31,5 @@ public abstract class Task {
     public void setId(int id) {
         this.id = id;
     }
+
 }
