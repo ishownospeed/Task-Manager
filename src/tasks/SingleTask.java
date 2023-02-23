@@ -7,12 +7,8 @@ public class SingleTask extends Task {
         this.status = status;
     }
 
-    public SingleTask setStatus(TaskStatus status) {
-        return new SingleTask(
-                this.getTitle(),
-                this.getDescription(),
-                status
-        );
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 
     @Override
