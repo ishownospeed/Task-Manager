@@ -17,6 +17,7 @@ public class Main {
         taskManager.getTaskById(st2.getId());
 
         historyManager.addTask(st2.getId());
+
         historyManager.addTask(st1.getId());
 
         System.out.println(historyManager.getHistoryIds());

@@ -1,14 +1,14 @@
 package manager;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final ArrayList<Integer> ids;
+    private final LinkedList<Integer> ids;
     private final static int MAX_SIZE_LIST = 10;
 
     public InMemoryHistoryManager() {
-        this.ids = new ArrayList<>();
+        this.ids = new LinkedList<>();
     }
 
     @Override
@@ -16,14 +16,13 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (ids.size() >= MAX_SIZE_LIST) {
             ids.remove(0);
             ids.add(taskId);
-        } else {
-            ids.add(taskId);
         }
+        ids.add(taskId);
     }
 
     @Override
     public List<Integer> getHistoryIds() {
-        return new ArrayList<>(ids);
+        return new LinkedList<>(ids);
     }
 
 }

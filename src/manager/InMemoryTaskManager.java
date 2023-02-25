@@ -50,7 +50,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById(int id) {
-        historyManager.addTask(id);
+        if (tasksById.containsKey(id)) {
+            historyManager.addTask(id);
+        }
         return tasksById.get(id);
     }
 
@@ -78,7 +80,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic getEpicById(int id) {
-        historyManager.addTask(id);
+        if (epicsById.containsKey(id)) {
+            historyManager.addTask(id);
+        }
         return epicsById.get(id);
     }
 
@@ -117,7 +121,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Subtask getSubtaskById(int id) {
-        historyManager.addTask(id);
+        if (subtasksById.containsKey(id)) {
+            historyManager.addTask(id);
+        }
         return subtasksById.get(id);
     }
 
