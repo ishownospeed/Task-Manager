@@ -3,6 +3,7 @@ package manager;
 import tasks.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, SingleTask> tasksById = new HashMap<>();
@@ -14,6 +15,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
+    }
+
+    @Override
+    public List<Integer> getHistory() {
+        return  historyManager.getHistoryIds();
     }
 
     @Override
