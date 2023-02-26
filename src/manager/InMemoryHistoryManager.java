@@ -15,7 +15,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     public void addTask(int taskId) {
         if (ids.size() >= MAX_SIZE_LIST) {
             ids.remove(0);
-            ids.add(taskId);
         }
         ids.add(taskId);
     }
