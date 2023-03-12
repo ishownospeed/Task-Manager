@@ -1,27 +1,36 @@
 package manager;
 
-import java.util.LinkedList;
+import manager.customlinkedlist.CustomLinkedList;
+import manager.customlinkedlist.Node;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final LinkedList<Integer> ids;
-    private final static int MAX_SIZE_LIST = 10;
+    private final CustomLinkedList<Integer> ids;
+    private final Map<Integer, Node<Integer>> mapIds;
 
     public InMemoryHistoryManager() {
-        this.ids = new LinkedList<>();
+        this.ids = new CustomLinkedList<>();
+        this.mapIds = new HashMap<>();
     }
 
     @Override
     public void addTask(int taskId) {
-        if (ids.size() >= MAX_SIZE_LIST) {
-            ids.remove(0);
-        }
-        ids.add(taskId);
+        Node<Integer> node = ids.addLast(taskId);
+        mapIds.put(taskId, node);
+    }
+
+    @Override
+    public void remove(int id) {
+        ids.removeNode(mapIds.get(id));
+        mapIds.remove(id);
     }
 
     @Override
     public List<Integer> getHistoryIds() {
-        return new LinkedList<>(ids);
+        return ids.getTasks();
     }
 
 }

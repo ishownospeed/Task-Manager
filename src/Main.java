@@ -36,11 +36,16 @@ public class Main {
         taskManager.createSubtask(e,s5);
         taskManager.createSubtask(e1,s6);
 
+        //taskManager.deleteEpicById(e.getId());
+
         taskManager.getSubtaskById(s1.getId());
         taskManager.getSubtaskById(s5.getId());
         taskManager.getSubtaskById(s6.getId());
         taskManager.getSubtaskById(s3.getId());
         taskManager.getSubtaskById(s1.getId());
+        taskManager.getSubtaskById(s1.getId());
+        taskManager.getSubtaskById(s5.getId());
+        taskManager.getSubtaskById(s5.getId());
 
         System.out.println(taskManager.getHistory());
     }
