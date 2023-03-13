@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface HistoryManager {
 
-    void addTask(int taskId);
+    void add(int taskId);
 
     void remove(int id);
 
-    List<Integer> getHistoryIds();
+    List<Integer> getHistory();
 
 }

@@ -17,9 +17,13 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void addTask(int taskId) {
-        Node<Integer> node = ids.addLast(taskId);
-        mapIds.put(taskId, node);
+    public void add(int taskId) {
+        Node<Integer> node = mapIds.get(taskId);
+        if (!mapIds.containsKey(taskId)) {
+            ids.removeNode(node);
+            ids.addLast(taskId);
+            mapIds.put(taskId, node);
+        }
     }
 
     @Override
@@ -29,7 +33,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public List<Integer> getHistoryIds() {
+    public List<Integer> getHistory() {
         return ids.getTasks();
     }
 

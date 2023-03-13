@@ -10,11 +10,10 @@ public class Main {
         SingleTask st2 = new SingleTask("поднять 100 кг ","за один месяц ", TaskStatus.DONE);
 
         taskManager.createTask(st1);
-        taskManager.getTaskById(st1.getId());
-        System.out.println(taskManager.getHistory());
-
         taskManager.createTask(st2);
         taskManager.getTaskById(st2.getId());
+        taskManager.getTaskById(st1.getId());
+
         System.out.println(taskManager.getHistory());
 
 
@@ -46,6 +45,8 @@ public class Main {
         taskManager.getSubtaskById(s1.getId());
         taskManager.getSubtaskById(s5.getId());
         taskManager.getSubtaskById(s5.getId());
+        taskManager.getTaskById(st2.getId());
+
 
         System.out.println(taskManager.getHistory());
     }
