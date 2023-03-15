@@ -7,7 +7,7 @@ public class CustomLinkedList<E> {
     private Node<E> head;
     private Node<E> tail;
 
-    public void addLast(E element) {
+    public Node<E> addLast(E element) {
         final Node<E> last = tail;
         final Node<E> newNode = new Node<>(last, element, null);
         tail = newNode;
@@ -15,6 +15,7 @@ public class CustomLinkedList<E> {
             head = newNode;
         else
             last.next = newNode;
+        return newNode;
     }
 
     public void removeNode(Node<E> nodeToRemove) {
