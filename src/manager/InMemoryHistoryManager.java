@@ -18,12 +18,12 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(int taskId) {
-        if (!mapIds.containsKey(taskId)){
-            Node<Integer> node1 = ids.addLast(taskId);
-            ids.addLast(taskId);
-            ids.removeNode(node1);
-            mapIds.put(taskId, node1);
+        Node<Integer> node = mapIds.get(taskId);
+        if (mapIds.containsKey(taskId)) {
+            ids.removeNode(node);
         }
+        ids.addLast(taskId);
+        mapIds.put(taskId, node);
     }
 
     @Override
@@ -39,4 +39,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         return ids.getTasks();
     }
 
+    @Override
+    public String toString() {
+        return "InMemoryHistoryManager{" +
+                "ids=" + ids.getTasks() +
+                '}';
+    }
 }

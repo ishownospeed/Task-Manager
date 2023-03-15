@@ -8,24 +8,25 @@ public class CustomLinkedList<E> {
     private Node<E> tail;
 
     public Node<E> addLast(E element) {
-        final Node<E> last = tail;
-        final Node<E> newNode = new Node<>(last, element, null);
-        tail = newNode;
-        if (last == null)
+        final Node<E> newNode = new Node<>(tail, element, null);
+        if (tail == null) {
             head = newNode;
-        else
-            last.next = newNode;
+        } else {
+            tail.next = newNode;
+        }
+        tail = newNode;
         return newNode;
     }
 
     public void removeNode(Node<E> nodeToRemove) {
-        if (nodeToRemove == null) return;
-        if (nodeToRemove.prev != null) {
+       if (nodeToRemove == null) return;
+       if (nodeToRemove.prev != null) {
             nodeToRemove.prev.next = nodeToRemove.next;
-            if (nodeToRemove.next == null)
+            if (nodeToRemove.next == null) {
                 tail = nodeToRemove.prev;
-            else
+            } else {
                 nodeToRemove.next.prev = nodeToRemove.prev;
+            }
         } else {
             head = nodeToRemove.next;
             if (head == null)
