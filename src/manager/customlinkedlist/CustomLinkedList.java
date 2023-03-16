@@ -19,8 +19,8 @@ public class CustomLinkedList<E> {
     }
 
     public void removeNode(Node<E> nodeToRemove) {
-       if (nodeToRemove == null) return;
-       if (nodeToRemove.prev != null) {
+        if (nodeToRemove == null) return;
+        if (nodeToRemove.prev != null) {
             nodeToRemove.prev.next = nodeToRemove.next;
             if (nodeToRemove.next == null) {
                 tail = nodeToRemove.prev;
@@ -29,17 +29,18 @@ public class CustomLinkedList<E> {
             }
         } else {
             head = nodeToRemove.next;
-            if (head == null)
+            if (head == null) {
                 tail = null;
-            else
+            } else {
                 head.prev = null;
+            }
         }
     }
 
     public List<E> getTasks() {
         List<E> toReturn = new LinkedList<>();
         Node<E> current = head;
-        while (current != tail.next) {
+        while (current != null) {
             toReturn.add(current.taskId);
             current = current.next;
         }

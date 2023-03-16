@@ -14,8 +14,9 @@ public class Main {
         taskManager.getTaskById(st2.getId());
         taskManager.getTaskById(st1.getId());
 
-        System.out.println(taskManager.getHistory());
 
+        System.out.println(taskManager.getHistory());
+        //taskManager.deleteTaskById(st2.getId());
 
         Epic e = new Epic("Упаковать кошку ", "у кошки есть переноска ");
         Epic e1 = new Epic("кошка ", "это тест ");
@@ -38,6 +39,7 @@ public class Main {
         //taskManager.deleteEpicById(e.getId());
 
         taskManager.getSubtaskById(s1.getId());
+
         taskManager.getSubtaskById(s5.getId());
         taskManager.getSubtaskById(s6.getId());
         taskManager.getSubtaskById(s3.getId());
@@ -46,6 +48,7 @@ public class Main {
         taskManager.getSubtaskById(s5.getId());
         taskManager.getSubtaskById(s5.getId());
         taskManager.getTaskById(st2.getId());
+        taskManager.getEpicById(e.getId());
 
 
         System.out.println(taskManager.getHistory());

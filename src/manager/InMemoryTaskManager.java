@@ -49,8 +49,12 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Список подзадач пуст");
         }
     }
+
     @Override
     public void deleteAllTasks() {
+        for (int task : tasksById.keySet()) {
+            historyManager.remove(task);
+        }
         tasksById.clear();
     }
 
@@ -122,6 +126,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteAllSubtask() {
         for (int task : subtasksById.keySet()) {
+            historyManager.remove(task);
             subtasksById.get(task).getEpic().getSubtasks().remove(subtasksById.get(task));
         }
         subtasksById.clear();

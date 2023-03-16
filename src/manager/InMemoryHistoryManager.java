@@ -8,21 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final CustomLinkedList<Integer> ids;
-    private final Map<Integer, Node<Integer>> mapIds;
-
-    public InMemoryHistoryManager() {
-        this.ids = new CustomLinkedList<>();
-        this.mapIds = new HashMap<>();
-    }
+    private final CustomLinkedList<Integer> ids = new CustomLinkedList<>();
+    private final Map<Integer, Node<Integer>> mapIds = new HashMap<>();
 
     @Override
     public void add(int taskId) {
-        Node<Integer> node = mapIds.get(taskId);
+        Node<Integer> node = ids.addLast(taskId);
         if (mapIds.containsKey(taskId)) {
             ids.removeNode(node);
         }
         ids.addLast(taskId);
+        ids.removeNode(node);
         mapIds.put(taskId, node);
     }
 
@@ -39,10 +35,4 @@ public class InMemoryHistoryManager implements HistoryManager {
         return ids.getTasks();
     }
 
-    @Override
-    public String toString() {
-        return "InMemoryHistoryManager{" +
-                "ids=" + ids.getTasks() +
-                '}';
-    }
 }
