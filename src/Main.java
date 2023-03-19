@@ -39,7 +39,6 @@ public class Main {
         //taskManager.deleteEpicById(e.getId());
 
         taskManager.getSubtaskById(s1.getId());
-
         taskManager.getSubtaskById(s5.getId());
         taskManager.getSubtaskById(s6.getId());
         taskManager.getSubtaskById(s3.getId());
@@ -49,6 +48,7 @@ public class Main {
         taskManager.getSubtaskById(s5.getId());
         taskManager.getTaskById(st2.getId());
         taskManager.getEpicById(e.getId());
+        taskManager.getSubtaskById(s1.getId());
 
 
         System.out.println(taskManager.getHistory());
