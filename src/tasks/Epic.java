@@ -1,12 +1,14 @@
 package tasks;
 
+import manager.file.TypeTasks;
+
 import java.util.ArrayList;
 
 public class Epic extends Task {
     private ArrayList<Subtask> subtasks;
 
-    public Epic(String title, String description) {
-        super(title, description);
+    public Epic(int id, TypeTasks type, String title, TaskStatus status, String description) {
+        super(id, type, title, status, description);
         this.subtasks = new ArrayList<>();
     }
 
@@ -45,6 +47,7 @@ public class Epic extends Task {
                 ", status=" + status +
                 '}';
     }
+
     public ArrayList<Subtask> getSubtasks() {
         return subtasks;
     }
@@ -52,4 +55,5 @@ public class Epic extends Task {
     public void setSubtasks(ArrayList<Subtask> subtasks) {
         this.subtasks = subtasks;
     }
+
 }

@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
 
         TaskManager taskManager = Managers.getTaskManager();
-
+/*
         SingleTask st1 = new SingleTask("поднять 150 кг ","за три месяца ", TaskStatus.NEW);
         SingleTask st2 = new SingleTask("поднять 100 кг ","за один месяц ", TaskStatus.DONE);
 
@@ -51,6 +51,6 @@ public class Main {
         taskManager.getSubtaskById(s1.getId());
 
 
-        System.out.println(taskManager.getHistory());
+        System.out.println(taskManager.getHistory());*/
     }
 }

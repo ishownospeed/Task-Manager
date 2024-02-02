@@ -1,10 +1,17 @@
 package tasks;
 
+import manager.file.TypeTasks;
+
 public class Subtask extends Task {
     private Epic epic;
 
-    public Subtask(String title, String description, Epic epic, TaskStatus status) {
-        super(title, description);
+    public Subtask(int id, TypeTasks type, String title, TaskStatus status, String description) {
+        super(id, type, title, status, description);
+        this.status = status;
+    }
+
+    public Subtask(int id, TypeTasks type, String title, TaskStatus status, String description, Epic epic) {
+        super(id, type, title, status, description);
         this.epic = epic;
         this.status = status;
     }
@@ -18,6 +25,7 @@ public class Subtask extends Task {
                 ", status=" + status +
                 '}';
     }
+
     @Override
     public TaskStatus getStatus() {
         return status;

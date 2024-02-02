@@ -13,10 +13,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(int taskId) {
-        Node<Integer> node = ids.addLast(taskId);
         if (mapIds.containsKey(taskId)) {
             ids.removeNode(mapIds.get(taskId));
         }
+        Node<Integer> node = ids.addLast(taskId);
         mapIds.put(taskId, node);
     }
 

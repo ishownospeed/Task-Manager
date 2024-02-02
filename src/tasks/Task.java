@@ -1,13 +1,19 @@
 package tasks;
 
-public abstract class Task {
-    private String title;
-    private String description;
-    private int id;
-    protected TaskStatus status;
+import manager.file.TypeTasks;
 
-    public Task(String title, String description) {
+public abstract class Task {
+    private int id;
+    private final TypeTasks type;
+    private final String title;
+    protected TaskStatus status;
+    private final String description;
+
+    public Task(int id, TypeTasks type, String title, TaskStatus status, String description) {
+        this.id = id;
+        this.type = type;
         this.title = title;
+        this.status = status;
         this.description = description;
     }
 
@@ -16,16 +22,20 @@ public abstract class Task {
     @Override
     public abstract String toString();
 
+    public int getId() {
+        return id;
+    }
+
+    public TypeTasks getType() {
+        return type;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public String getDescription() {
         return description;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public void setId(int id) {

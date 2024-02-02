@@ -1,9 +1,11 @@
 package tasks;
 
+import manager.file.TypeTasks;
+
 public class SingleTask extends Task {
 
-    public SingleTask(String title, String description, TaskStatus status) {
-        super(title, description);
+    public SingleTask(int id, TypeTasks type, String title, TaskStatus status, String description) {
+        super(id, type, title, status, description);
         this.status = status;
     }
 
@@ -25,4 +27,5 @@ public class SingleTask extends Task {
                 ", status=" + status +
                 '}';
     }
+
 }
